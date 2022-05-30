@@ -17,6 +17,14 @@ $ docker run -it --rm --privileged=true --name sentiment1 -v /data/app:/app -u 1
 
 ## test
 
+- 测试环境alg001
+```
+docker run -it --rm --privileged=true --name sentiment_v1 -v /opt/DOCKER:/app -u 1000:1000 sentiment:bert python app.py --input test.csv --step 128 --output res_sentiment
+```
+
+docker run -it --rm --privileged=true --name sentiment -v /opt/DOCKER:/app db27413ed081 /bin/bash
+
+- 正式环境
 ```
 - 指定自定义输入输出路径命令
 $ docker run -it --rm --privileged=true --name sentiment1 -u 1000:1000 sentiment:berts -v /data/app:/app -v /data/alg/wangzixiang:/data python app.py --input /data/test.csv --step 128 --output res_sentiment

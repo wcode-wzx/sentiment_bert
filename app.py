@@ -11,9 +11,10 @@ from tqdm import tqdm
 import argparse
 import pandas as pd
 
+
 parser = argparse.ArgumentParser(description='Sentiment by bert')
 
-parser.add_argument('--model', default='bert_car_0426.pkl', type=str, help='model path')
+parser.add_argument('--model', default='car', type=str, choices=['car','jd','jd_long'], help='model path')
 parser.add_argument('--input', default='all.xlsx',required=True, type=str, help='input path')
 parser.add_argument('--field', default='phrase', type=str, help='Select a field to brush emotions')
 parser.add_argument('--step', default='128000', type=int, help='chunk size')
@@ -23,12 +24,21 @@ parser.add_argument('--output', default='res_sentiment', type=str, help='output 
 args = parser.parse_args()
 
 model_name = args.model  # bert
+if args.model == 'jd':
+    args.model = '/tmp/models/bert_jd_sentiment_0520.pkl'
+elif args.model == 'jd_long':
+    args.model = '/tmp/models/bert_jd_long_sentiment_0530.pkl'
+elif args.model == 'car':
+    args.model = '/tmp/models/bert_car_0426.pkl'
+else:
+    pass
 
 print("input:", args.input)
 print("step:", args.step)
 
+
 # 加载模型
-model = BertForSequenceClassification.from_pretrained('bert-base-chinese', num_labels=2)
+model = BertForSequenceClassification.from_pretrained('/tmp/bert-base-chinese', num_labels=2)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
@@ -36,7 +46,7 @@ model.to(device)
 model.load_state_dict(torch.load(args.model, map_location=torch.device('cpu')))
 
 # 分词器，词典
-tokenizer = BertTokenizer.from_pretrained('bert-base-chinese')
+tokenizer = BertTokenizer.from_pretrained('/tmp/bert-base-chinese/')
 
 
 # 数据集读取
@@ -110,7 +120,7 @@ def workflow(file_path, ind):
     
 def get_files_name(path):
     '''Merge all dfs under path'''
-    for root,dirs,files in os.walk(path):
+    for root, dirs, files in os.walk(path):
         for file in files:
             yield os.path.join(root, file)
             
@@ -154,7 +164,7 @@ def main(file_path):
         get_concat_df("temp").to_excel(args.output, index = False)
         print("Finish and save the file to " + args.output)
     else:    
-        if file_path.split('.')[-1] == 'csv':            
+        if file_path.split('.')[-1] == 'csv':
             get_concat_df("temp").to_csv(args.output+".csv", index = False)
             print("Finish and save the file to " + args.output+".csv")
         if file_path.split('.')[-1] == 'xlsx':

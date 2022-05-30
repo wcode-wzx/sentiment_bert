@@ -3,3 +3,8 @@
 /bert-base-chinese
 /images
 /models
+*.pyc
+*.pkl
+*.csv
+*.xlsx
+/temp
