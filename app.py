@@ -11,6 +11,9 @@ from tqdm import tqdm
 import argparse
 import pandas as pd
 
+from transformers import logging
+logging.set_verbosity_warning()
+logging.set_verbosity_error()
 
 parser = argparse.ArgumentParser(description='Sentiment by bert')
 
@@ -42,8 +45,11 @@ model = BertForSequenceClassification.from_pretrained('/tmp/bert-base-chinese', 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
+if torch.cuda.is_available():
 # model.load_state_dict(torch.load("/content/drive/MyDrive/fast_nlp/save_model/bert_article_0406.pkl"))
-model.load_state_dict(torch.load(args.model, map_location=torch.device('cpu')))
+    model.load_state_dict(torch.load(args.model))
+else:
+    model.load_state_dict(torch.load(args.model, map_location=torch.device('cpu')))
 
 # 分词器，词典
 tokenizer = BertTokenizer.from_pretrained('/tmp/bert-base-chinese/')

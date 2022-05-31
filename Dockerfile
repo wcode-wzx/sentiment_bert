@@ -1,4 +1,5 @@
-FROM bitnami/pytorch:latest
+# FROM bitnami/pytorch:latest
+FROM pytorch/pytorch:1.11.0-cuda11.3-cudnn8-runtime
 
 LABEL maintainer="thyme"
 LABEL description="pytorch/bert"

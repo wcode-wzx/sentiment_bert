@@ -14,6 +14,43 @@ $ docker run -it --rm --privileged=true --name sentiment1 -v /data/app:/app -u 1
 --step 128 多少缓存一次，默认128000
 --output 输入文件名称 例如 res_sentiment、res.csv
 ```
+## alg/pytorch:sentiment_bert 镜像使用
+
+```
+$ docker run -it --rm --privileged=true --name sentiment_bert -v /opt/DOCKER:/app -u 1000:1000 alg/pytorch:sentiment_bert python app.py --input test.xlsx --step 128 --output res_sentiment
+
+[docker]
+--rm 执行完删除容器
+--privileged=true
+-v 创建数据卷
+-u 用户/用户组
+[python]
+--model 可选参数 ['car','jd','jd_long']，默认car
+--input alls.xlsx 输入文件路径 支持xlsx，csv，必须参数
+--field 文本字段名称，默认phrase
+--step 128 多少缓存一次，默认128000
+--output 输入文件名称 例如 res_sentiment、res.csv
+```
+
+## alg/pytorch:sentiment_bert_gpu 镜像使用
+
+```
+$ docker run -it --gpus all --rm --privileged=true --name sentiment_bert -v /opt/DOCKER:/workspace -u 1000:1000 alg/pytorch:sentiment_bert_gpu python app.py --input test.xlsx --step 128 --output res_sentiment
+
+[docker]
+--rm 执行完删除容器
+--gpus all 加载GPU
+--privileged=true
+-v 创建数据卷
+-u 用户/用户组
+[python]
+--model 可选参数 ['car','jd','jd_long']，默认car
+--input alls.xlsx 输入文件路径 支持xlsx，csv，必须参数
+--field 文本字段名称，默认phrase
+--step 128 多少缓存一次，默认128000
+--output 输入文件名称 例如 res_sentiment、res.csv
+```
+
 
 ## test
 
