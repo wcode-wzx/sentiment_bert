@@ -97,11 +97,11 @@ def predict(test_dataloader):
 
 
 def load_excel(file_path, ind, step):
-    dfs = pd.read_excel(file_path).loc[int(ind)*int(step):(int(ind)+1)*int(step)]
+    dfs = pd.read_excel(file_path).loc[int(ind)*int(step):(int(ind)+1)*int(step)-1]
     return dfs
 
 def load_csv(file_path, ind, step):
-    dfs = pd.read_csv(file_path).loc[int(ind)*int(step):(int(ind)+1)*int(step)]
+    dfs = pd.read_csv(file_path).loc[int(ind)*int(step):(int(ind)+1)*int(step)-1]
     return dfs
 
 
